@@ -83,7 +83,6 @@ exports.update = async (req, res) => {
 	try {
 		const category = await ProductCategory.findOne({
 			where: { id: catId },
-			include: [{ model: ProductCategory }],
 		});
 		if (!category) {
 			return res.status(404).json({
