@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post("/", productsCategoryContoller.create);
 router.get("/", productsCategoryContoller.getAll);
+router.get("/:catId", productsCategoryContoller.getOne);
 router.patch("/", productsCategoryContoller.update);
 router.delete("/", productsCategoryContoller.deleteAll);
 router.post("/prodId", productsCategoryContoller.deleteOne);
