@@ -53,7 +53,10 @@ exports.getOne = async (req, res) => {
 		});
 	}
 	try {
-		const product = await Product.findOne({ where: { id: prodId } });
+		const product = await Product.findOne({
+			where: { id: prodId },
+			include: [{ model: ProductCategory }],
+		});
 		if (!product) {
 			return res.status(404).json({
 				status: "Request failed",
