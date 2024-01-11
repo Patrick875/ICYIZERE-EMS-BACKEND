@@ -43,6 +43,35 @@ exports.getAll = async (req, res) => {
 		});
 	}
 };
+
+exports.getOne = async (req, res) => {
+	const { catId } = req.params;
+	if (!catId) {
+		return res.status(400).json({
+			status: "Failed",
+			message: "Category Id is required",
+		});
+	}
+	try {
+		const category = await ProductCategory.findOne({ where: { id: catId } });
+		if (!category) {
+			return res.status(404).json({
+				status: "Request failed",
+				message: "category not found",
+			});
+		}
+		return res.status(200).json({
+			status: "success",
+			data: category,
+		});
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({
+			message: "error getting category",
+			status: "error getting category",
+		});
+	}
+};
 exports.update = async (req, res) => {
 	const { catId } = req.body;
 	if (!catId) {
@@ -114,8 +143,8 @@ exports.deleteAll = async (req, res) => {
 	} catch (err) {
 		console.log(err);
 		res.status(500).json({
-			message: "error deleting products",
-			status: "error deleting products",
+			message: "error deleting categories",
+			status: "error deleting categories",
 		});
 	}
 };

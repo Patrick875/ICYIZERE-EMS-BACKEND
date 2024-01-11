@@ -43,6 +43,36 @@ exports.getAll = async (req, res) => {
 		});
 	}
 };
+
+exports.getOne = async (req, res) => {
+	const { prodId } = req.params;
+	if (!prodId) {
+		return res.status(400).json({
+			status: "Failed",
+			message: "Category Id is required",
+		});
+	}
+	try {
+		const product = await Product.findOne({ where: { id: prodId } });
+		if (!product) {
+			return res.status(404).json({
+				status: "Request failed",
+				message: "category not found",
+			});
+		}
+		return res.status(200).json({
+			status: "success",
+			data: product,
+		});
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({
+			message: "error getting product",
+			status: "error getting product",
+		});
+	}
+};
+
 exports.update = async (req, res) => {
 	const { prodId } = req.body;
 	if (!prodId) {
