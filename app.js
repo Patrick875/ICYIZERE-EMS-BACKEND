@@ -11,7 +11,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 // app.use(cors({ origin: "https://genuine-sherbet-92acf5.netlify.app/" }));
 app.use(cors());
-app.options("*", cors());
+app.options("*", cors({ origin: "*" }));
 
 app.use("/api/v1/", userRouter);
 app.use("/api/v1/products/", productRouter);
