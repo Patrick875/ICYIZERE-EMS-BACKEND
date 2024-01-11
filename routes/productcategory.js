@@ -7,6 +7,6 @@ router.post("/", productsCategoryContoller.create);
 router.get("/", productsCategoryContoller.getAll);
 router.patch("/", productsCategoryContoller.update);
 router.delete("/", productsCategoryContoller.deleteAll);
-router.delete("/prodId", productsCategoryContoller.deleteOne);
+router.post("/prodId", productsCategoryContoller.deleteOne);
 
 module.exports = router;

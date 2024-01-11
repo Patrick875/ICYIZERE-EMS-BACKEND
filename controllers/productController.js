@@ -85,7 +85,7 @@ exports.deleteOne = async (req, res) => {
 		});
 	}
 	try {
-		const product = await Product.destroy({
+		await Product.destroy({
 			where: { id: prodId },
 		});
 
