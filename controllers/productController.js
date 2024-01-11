@@ -49,7 +49,7 @@ exports.getOne = async (req, res) => {
 	if (!prodId) {
 		return res.status(400).json({
 			status: "Failed",
-			message: "Category Id is required",
+			message: "Product Id is required",
 		});
 	}
 	try {
@@ -57,7 +57,7 @@ exports.getOne = async (req, res) => {
 		if (!product) {
 			return res.status(404).json({
 				status: "Request failed",
-				message: "category not found",
+				message: "product not found",
 			});
 		}
 		return res.status(200).json({
