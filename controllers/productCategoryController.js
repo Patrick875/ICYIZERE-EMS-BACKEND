@@ -82,7 +82,7 @@ exports.update = async (req, res) => {
 	}
 	try {
 		const category = await ProductCategory.findOne({
-			where: { id: prodId },
+			where: { id: catId },
 			include: [{ model: ProductCategory }],
 		});
 		if (!category) {
@@ -99,8 +99,8 @@ exports.update = async (req, res) => {
 	} catch (err) {
 		console.log(err);
 		res.status(500).json({
-			message: "error getting products",
-			status: "error getting products",
+			message: "error updating category",
+			status: "error updating category",
 		});
 	}
 };
