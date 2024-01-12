@@ -77,7 +77,7 @@ exports.getOne = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-	const { prodId } = req.body;
+	const { prodId, name, category } = req.body;
 	if (!prodId) {
 		return res.status(401).json({
 			status: "failed",
@@ -95,7 +95,7 @@ exports.update = async (req, res) => {
 				message: "product not found",
 			});
 		}
-		await Product.update({ ...req.body }, { where: { id: prodId } });
+		await Product.update({ name, category }, { where: { id: prodId } });
 
 		res.status(203).json({
 			status: "success",
