@@ -88,16 +88,67 @@ exports.login = async (req, res) => {
 		console.log(error);
 	}
 };
+exports.update = async (req, res) => {
+	const { firstName, lastName, tel, email, oldPassword, newPassword, id } =
+		req.body;
+	if (!id) {
+		return res.status(400).json({
+			status: "request failed",
+			message: "user id is required",
+		});
+	}
+
+	try {
+		const user = await User.findOne({ where: { id } });
+		if (!user) {
+			return res.status(404).json({
+				status: "request failed",
+				message: "user not found",
+			});
+		}
+		let match;
+		if (email !== user.email || (oldPassword && newPassword)) {
+			match = await bcrypt.compare(oldPassword, user.password);
+
+			if (!match) {
+				return res.status(400).json({
+					status: "request failed",
+					message: "wrong user password",
+				});
+			}
+
+			const newHashedPassword = await bcrypt.hash(newPassword, 12);
+			await User.update(
+				{ firstName, lastName, email, tel, password: newHashedPassword },
+				{ where: { id } }
+			);
+			let updated = await User.findOne({ where: { id } });
+			updated.password = undefined;
+			return res.status(203).json({
+				status: "success",
+				data: updated,
+				message: "user updated with credentials",
+			});
+		} else {
+			await User.update({ firstName, lastName, email, tel }, { where: { id } });
+			const updated = await User.findOne({ where: { id } });
+			return res.status(203).json({
+				status: "success",
+				data: updated,
+				message: "user updated",
+			});
+		}
+	} catch (err) {
+		console.log("error", error);
+		return res.status(500).json({
+			status: "request failed",
+			message: "error updating user",
+		});
+	}
+};
 
 exports.resetPassword = async (req, res) => {
 	const { email } = req.body;
-
-	// if (!oldPassword || !newPassword) {
-	// 	return res.status(400).json({
-	// 		status: "failed",
-	// 		message: "provide both old and new password",
-	// 	});
-	// }
 
 	try {
 		const user = await User.findOne({ where: { email } });
