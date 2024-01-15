@@ -108,12 +108,12 @@ exports.deleteOne = async (req, res) => {
 	if (!catId) {
 		return res.status(401).json({
 			status: "failed",
-			message: "prodId is required",
+			message: "catId is required",
 		});
 	}
 	try {
 		const category = await ProductCategory.destroy({
-			where: { id: prodId },
+			where: { id: catId },
 		});
 		if (!category) {
 			return res.status(404).json({
@@ -128,8 +128,8 @@ exports.deleteOne = async (req, res) => {
 	} catch (err) {
 		console.log(err);
 		res.status(500).json({
-			message: "error getting products",
-			status: "error getting products",
+			message: "error deleting category",
+			status: "error deleting category",
 		});
 	}
 };
