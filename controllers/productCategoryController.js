@@ -2,7 +2,7 @@ const { ProductCategory } = require("../database/models");
 
 exports.create = async (req, res) => {
 	const { name, description, barcode } = req.body;
-	console.log("ze body", req.body);
+
 	if (!name || !barcode) {
 		return res.status(401).json({
 			status: "request failed",
@@ -21,10 +21,18 @@ exports.create = async (req, res) => {
 		});
 	} catch (err) {
 		console.log(err);
-		res.status(500).json({
-			message: "error creating category",
-			status: "error creating category",
-		});
+		if (err.name === "SequelizeUniqueConstraintError") {
+			res.status(400).json({
+				status: "Bad Request",
+				message: "Category with this name already exists.",
+			});
+		} else {
+			console.error(err);
+			res.status(500).json({
+				status: "Internal Server Error",
+				message: "Error creating product.",
+			});
+		}
 	}
 };
 

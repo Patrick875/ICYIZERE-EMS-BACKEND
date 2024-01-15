@@ -17,12 +17,20 @@ exports.create = async (req, res) => {
 			status: "success",
 			message: "product registered",
 		});
-	} catch (error) {
-		console.log({ error });
-		return res.status(400).json({
-			status: "failed",
-			message: "error registering product",
-		});
+	} catch (err) {
+		console.log({ err });
+		if (err.name === "SequelizeUniqueConstraintError") {
+			res.status(400).json({
+				status: "Bad Request",
+				message: "Product with this name already exists.",
+			});
+		} else {
+			console.error(err);
+			res.status(500).json({
+				status: "Internal Server Error",
+				message: "Error creating product.",
+			});
+		}
 	}
 };
 
