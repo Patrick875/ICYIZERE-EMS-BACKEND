@@ -14,7 +14,10 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	ProductCategory.init(
 		{
-			name: DataTypes.STRING,
+			name: {
+				type: DataTypes.STRING,
+				unique: [true, "Category with name already exists"],
+			},
 			description: DataTypes.STRING,
 			barcode: DataTypes.BIGINT,
 		},

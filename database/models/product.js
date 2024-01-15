@@ -14,7 +14,10 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	Product.init(
 		{
-			name: DataTypes.STRING,
+			name: {
+				type: DataTypes.STRING,
+				unique: [true, "Product with name already exists"],
+			},
 			category: DataTypes.INTEGER,
 			description: DataTypes.STRING,
 		},
