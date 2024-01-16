@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
 				unique: [true, "Category with name already exists"],
 			},
 			description: DataTypes.STRING,
-			barcode: DataTypes.BIGINT,
+			barcode: DataTypes.STRING,
 		},
 		{
 			sequelize,
