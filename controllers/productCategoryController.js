@@ -3,6 +3,7 @@ const { ProductCategory } = require("../database/models");
 exports.create = async (req, res) => {
 	const { name, description, barcode } = req.body;
 
+	console.log("barcode", barcode);
 	if (!name || !barcode) {
 		return res.status(401).json({
 			status: "request failed",
@@ -12,7 +13,7 @@ exports.create = async (req, res) => {
 	try {
 		const category = await ProductCategory.create({
 			name,
-			barcode,
+			barcode: `${barcode}`,
 			description,
 		});
 		res.status(201).json({
